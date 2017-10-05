@@ -9,23 +9,24 @@ seleccion de base de datos. -->
 */
 class PDOConnect
 {
-	protected $dbPDO;
+	public $dbPDO;
 	private $tableName;
 
-	function __construct($dbhost, $dbname, $dbuser, $dbpass)
+	function __construct()
+	{
+		$this->checkConn();
+	}
+
+	private function checkConn($dbhost="localhost", $dbname="gestion_bodega", $dbuser="root", $dbpass="")
 	{
 		try{
 			//Creamos la base de datos en PDO
 			$this->dbPDO = new PDO('mysql:host='.$dbhost.';dbname='.$dbname, $dbuser, $dbpass);
-			//echo "connected!"; //Si esta conectado, mostrara un mensaje.
+			echo "connected!"; //Si esta conectado, mostrara un mensaje.
 		}catch(PDOException $e){
 			print "Error!: ".$e->getMessage()."<br>"; // En caso de error, nos dira cual es.
 			die(); // Terminar todos los procesos de la clase.
 		}
-		
-	}
-
-	private function doConn(){
 		
 	}
 }
