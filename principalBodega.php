@@ -1,4 +1,13 @@
+<?php 
+//Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
+include('sesion.php');
+$data = Sessions::getInstance();
 
+if ($data->isOnline == false) {
+    header("Location: login.php");
+}
+
+ ?>
 <!-- Incluir archivos requeridos -->
 
 <!DOCTYPE html>

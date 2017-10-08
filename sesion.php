@@ -78,14 +78,13 @@ error_reporting(E_ALL);
         return FALSE;
     }
 
+    public function isOnline($value)
+    {
+    	$var = $_SESSION['isOnline'] = $value;
+    	return $var;
+    }
+
  }
-
-
-$data = Sessions::getInstance();
-$data->nickname = 'Someone';
-$data->age = 18;
-printf( '<p>My name is %s and I\'m %d years old.</p>' , $data->nickname , $data->age );
-
 
  ?>
 

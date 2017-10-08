@@ -1,5 +1,8 @@
-
-<?php if($_SESSION['isConnected']){header("Refresh: 1; url=")} //Agregar URL en el caso de que esta conectado! ?> 
+<?php 
+//Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
+include('sesion.php');
+$data = Sessions::getInstance();
+?>
 <!DOCTYPE html>
 <html>
     <head>
