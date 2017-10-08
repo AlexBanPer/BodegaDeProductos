@@ -41,6 +41,8 @@ if($_POST)
 			{
 				$dbpass = $key['contrasena'];
 				$dbrut  = $key['rut'];
+				$dbname = $key['nombre'];
+				$dbapellido = $key['apellido'];
 				$dbcargo = $key['cargo'];
 			}
 
@@ -50,6 +52,8 @@ if($_POST)
 				echo "CONECTADO!";
 				$data->isOnline(true);
 				$data->rut = $dbrut;
+				$data->name = $dbname;
+				$data->fullname = $dbname." ".$dbapellido;
 				switch ($dbcargo) {
 					case 'Bodega':
 						header("Location:principalBodega.php");

@@ -1,10 +1,16 @@
+<?php 
+//Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
+include('sesion.php');
+$data = Sessions::getInstance();
 
-<!-- Incluir archivos requeridos -->
-
+if ($data->isOnline == false) {
+    header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Admin</title>
         <link rel="stylesheet" href="estilo.css"/>
     </head>
@@ -15,7 +21,7 @@
             <div class= "encabezado">
             <div class="izq">
         
-                <p>Bienvenido/a:<br><!-- Agregar variable de sesión con nombre y apellido del usuario --></p>
+                <p>Bienvenido/a:<br><?php echo $_SESSION['fullname']; ?></p>
 
             </div>
             
