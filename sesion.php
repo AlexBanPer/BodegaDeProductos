@@ -8,76 +8,83 @@ error_reporting(E_ALL);
  */
  class Sessions
  {
- 	public $session_name;
- 	
- 	function __construct()
- 	{
- 		if(!isset($_SESSION))
- 		{
- 			$this->init_session();
- 		}
- 	}
- 	public function init_session()
- 	{
- 		session_start();
- 	}
- 	public function get_session_id()
- 	{
- 		return session_id();
- 	}
- 	public function sessionExists($session_name)
- 	{
- 		return isset($_SESSION[$session_name]);
- 	}
- 	public function create_new_session($session_name, $isArray = false)
- 	{
- 		if(!isset($_SESSION[$session_name]))
- 		{
- 			if($isArray == true)
- 			{
- 				$_SESSION[$session_name] = array();
- 			}
- 			else
- 			{
- 				$_SESSION[$session_name] = '';
- 			}
- 		}
- 	}
- 	public function insert_value( $session_name , array $data ){
- 		if( is_array($_SESSION[$session_name]) ){
- 			array_push( $_SESSION[$session_name], $data );
- 		}
- 	}
 
- 	public function display_session( $session_name ){
- 		echo '<pre>';print_r($_SESSION[$session_name]);echo '</pre>';
- 	}
+ 	const SESSION_STARTED = TRUE;
+ 	const SESSION_NOT_STARTED = FALSE;
 
- 	public function remove_session( $session_name = '' ){
- 		if( !empty($session_name) ){
- 			unset( $_SESSION[$session_name] );
- 		}
- 		else
- 		{
- 			unset($_SESSION);
- 		}
- 	}
- 	public function get_session_data($session_name){
- 		return $_SESSION[$session_name];
- 	}
+ 	private $sessionState = self::SESSION_NOT_STARTED;
 
- 	public function set_session_data( $session_name , $data ){
- 		$_SESSION[$session_name] = $data;
- 	}
+ 	private static $instance;
+
+ 	private function __construct() {}
+
+ 	public static function getInstance()
+    {
+        if ( !isset(self::$instance))
+        {
+            self::$instance = new self;
+        }
+       
+        self::$instance->startSession();
+       
+        return self::$instance;
+    }
+
+    public function startSession()
+    {
+        if ( $this->sessionState == self::SESSION_NOT_STARTED )
+        {
+            $this->sessionState = session_start();
+        }
+       
+        return $this->sessionState;
+    }
+
+    public function __set( $name , $value )
+    {
+        $_SESSION[$name] = $value;
+    }
+
+     public function __get( $name )
+    {
+        if ( isset($_SESSION[$name]))
+        {
+            return $_SESSION[$name];
+        }
+    }
+   
+   
+    public function __isset( $name )
+    {
+        return isset($_SESSION[$name]);
+    }
+   
+   
+    public function __unset( $name )
+    {
+        unset( $_SESSION[$name] );
+    }
+
+    public function destroy()
+    {
+        if ( $this->sessionState == self::SESSION_STARTED )
+        {
+            $this->sessionState = !session_destroy();
+            unset( $_SESSION );
+           
+            return !$this->sessionState;
+        }
+       
+        return FALSE;
+    }
 
  }
 
 
- $sesion = new Sessions();
- $sesion->create_new_session("myrut");
- $sesion->insert_value("myrut", array("Peter"=>"35", "Ben"=>"37", "Joe"=>"43"));
- $sesion->get_session_data("myrut");
- $sesion->display_session("myrut");
+$data = Sessions::getInstance();
+$data->nickname = 'Someone';
+$data->age = 18;
+printf( '<p>My name is %s and I\'m %d years old.</p>' , $data->nickname , $data->age );
 
 
  ?>
