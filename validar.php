@@ -3,8 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//Iniciamos la sesion, para luego veriricar si esta conectado o no.
-session_start();
 
 //Recuperamos, para solo una carga el archivo conexion.php 
 require_once("conexion.php");

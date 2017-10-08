@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+
+<?php if($_SESSION['isConnected']){header("Refresh: 1; url=")} //Agregar URL en el caso de que esta conectado! ?> 
 <!DOCTYPE html>
 <html>
     <head>
