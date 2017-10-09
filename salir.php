@@ -5,9 +5,9 @@ $data = Sessions::getInstance();
 
 if ($_GET['sal'] == 'si') {
 	$data->destroy();
-	header("Refresh: 1; url=login.php");
+	header("Location: login.php");
 }else{
-	header("Refresh: 1; url=principalAdmin.php");
+	header("Location: principalAdmin.php");
 }
 
 
