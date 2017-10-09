@@ -22,7 +22,7 @@ class PDOConnect
 		try{
 			//Creamos la base de datos en PDO
 			$this->dbPDO = new PDO('mysql:host='.$dbhost.';dbname='.$dbname, $dbuser, $dbpass);
-			echo "connected!"; //Si esta conectado, mostrara un mensaje.
+			//echo "connected!"; //Si esta conectado, mostrara un mensaje.
 		}catch(PDOException $e){
 			print "Error!: ".$e->getMessage()."<br>"; // En caso de error, nos dira cual es.
 			die(); // Terminar todos los procesos de la clase.
