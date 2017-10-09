@@ -3,9 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
-//Recuperamos, para solo una carga el archivo conexion.php 
-require_once("conexion.php");
 //Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
 include('sesion.php');
 $data = Sessions::getInstance();
@@ -48,12 +45,11 @@ if($_POST)
 
 			if($newpass === $dbpass)
 			{
-				echo $dbrut." ".$dbcargo;
-				echo "CONECTADO!";
-				$data->isOnline(true);
+				$data->setOnline(true);
 				$data->rut = $dbrut;
 				$data->name = $dbname;
 				$data->fullname = $dbname." ".$dbapellido;
+				$data->cargo = $dbcargo;
 				switch ($dbcargo) {
 					case 'Bodega':
 						header("Location:principalBodega.php");
@@ -91,7 +87,7 @@ else
 
 // Funcion para redirigir
 function redireccionar($destino){
-	header("Refresh: 1; url=$destino");
+	header("Location: $destino");
 }
 
 
