@@ -68,26 +68,26 @@ if ($data->isOnline == false) {
 			<input name='eliminar' type="submit" value="ELIMINAR" onclick="return  confirm('Seguro que deseas eliminarlo?')">
 		</form>
 		<?php
-			/* En las siguientes 5 lineas se verifica la creación del boton submit, se recupera el rut ingresado para ser eliminado y se verifica si es igual al rut del Admin, 
-			y se muestra alerta con mensaje*/	
-			if (isset($_POST['eliminar'])) {
-				$eliminar = $_POST['eliminar-personal'];
-				if ($eliminar == '204837104') {
-					echo "<script lenguaje='javascript'>alert('Admin general no puede ser eliminado');</script>";
-				}else{
+		if (isset($_POST['eliminar'])) {
+			$eliminar = $_POST['eliminar-personal'];
+			if ($eliminar == '204837104') {
+				echo "<script lenguaje='javascript'>alert('Admin general no puede ser eliminado');</script>";
+			}else{
 
-					if (!empty($eliminar) && is_numeric($eliminar)) {
+				if (!empty($eliminar) && is_numeric($eliminar)) {
 
-						$validation = $dbPDOClass->dbPDO->prepare("SELECT rut FROM personal WHERE rut=:rut");
-						$validation->bindParam(':rut', $eliminar, PDO::PARAM_STR);
-						$validation->execute();
-						$count = $validation->rowCount();
+					$validation = $dbPDOClass->dbPDO->prepare("SELECT rut FROM personal WHERE rut=:rut");
+					$validation->bindParam(':rut', $eliminar, PDO::PARAM_STR);
+					$validation->execute();
+					$count = $validation->rowCount();
 
-						if($count == 0)
-						{
-							echo "<script lenguaje='javascript'>alert('Nada que borrar!');</script>";
-						}
-						else
+					if($count == 0)
+					{
+						echo "<script lenguaje='javascript'>alert('Nada que borrar!');</script>";
+					}
+					else
+					{
+						if($eliminar != $_SESSION['rut'])
 						{
 							$delete = $dbPDOClass->dbPDO->prepare("DELETE FROM personal WHERE rut=:rut");
 							$delete->bindParam(':rut', $eliminar, PDO::PARAM_STR);
@@ -96,11 +96,15 @@ if ($data->isOnline == false) {
 							echo "<script lenguaje='javascript'>alert('Eliminado con exito!');</script>";
 							header("Refresh:1; url=eliminar_personal.php");
 						}
+						else
+						{
+							echo "<script lenguaje='javascript'>alert('No puedes eliminarte a ti mismo!');</script>";
+						}
 					}
 				}
-			};
-			?>
-
-		</div>
-	</body>
-	</html>		 
+			}
+		};
+		?>
+	</div>
+</body>
+</html>		 
