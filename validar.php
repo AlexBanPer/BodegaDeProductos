@@ -48,6 +48,7 @@ if($_POST)
 				$data->setOnline(true);
 				$data->rut = $dbrut;
 				$data->name = $dbname;
+				$data->apellido = $dbapellido;
 				$data->fullname = $dbname." ".$dbapellido;
 				$data->cargo = $dbcargo;
 				switch ($dbcargo) {
