@@ -38,40 +38,40 @@ if ($data->isOnline == false) {
     </div>
     <div class="formulario">
 
-    <?php 
-    if ($_GET['status']) {
-        $color = "#E12222B3";
-        switch ($_GET['status']) {
-            case '0':
+        <?php 
+        if ($_GET['status']) {
+            $color = "#E12222B3";
+            switch ($_GET['status']) {
+                case '0':
                 $msg = "No hay datos ingresados!";
-            break;
-            case '1':
+                break;
+                case '1':
                 $msg = "Debes rellenar el formulario!";
-            break;
-            case '2':
-                $msg = "Usuario ya existe!";
-            break;
-            case '3':
+                break;
+                case '2':
+                $msg = "Ya existe un registro asociado al rut ingresado.";
+                break;
+                case '3':
                 $msg = "Las contraseñas deben coincidir!";
-            break;
-            case '4':
+                break;
+                case '4':
                 $color = "#41E122B3";
                 $extra = $_GET['new'];
                 $msg = "El usuario ".$extra." fue creado!";
-            break;
-        default:
-            break;
+                break;
+                default:
+                break;
+            }
+
+            echo '<div style="margin-top: 2px;margin-bottom: 2px;">';
+            echo '<div class="formulario" style="background-color: '.$color.';">';
+            echo '<p style="text-align: center;text-align-last: ;font-weight: bolder;font-size-adjust: inherit;margin-bottom: 1em;">'.$msg.'</p>';
+            echo '</div>';
+            echo '</div>';
+
         }
 
-        echo '<div style="margin-top: 2px;margin-bottom: 2px;">';
-        echo '<div class="formulario" style="background-color: '.$color.';">';
-        echo '<p style="text-align: center;text-align-last: ;font-weight: bolder;font-size-adjust: inherit;margin-bottom: 1em;">'.$msg.'</p>';
-        echo '</div>';
-        echo '</div>';
-
-    }
-
-     ?>
+        ?>
 
         <form ="registro" method="post" action="registro.php" enctype="application/x-www-form-urlencoded">
             <div class="campo">
@@ -112,17 +112,11 @@ if ($data->isOnline == false) {
         </div>
 
         <div class="botones">
-            <input type="submit" name="boton-enviar" value="crear usuario"/>
-
-                        <!-- Realizar verificación de variables segun sea el resultado de la validación en el archivo registro.php:
-                        caso 1: Entregar el mensaje "Las contraseñas no coinciden",
-                        caso 2: Entregar el mensaje "Usuario creado correctamente",
-                        caso 3: entregar mensaje "Ya existe un registro asociado al rut ingresado". -->
-                        
-                    </div>
-                </form>
-            </div>
-
+            <input type="submit" name="boton-enviar" value="crear usuario"/>    
         </div>
-    </body>
-    </html>
+    </form>
+</div>
+
+</div>
+</body>
+</html>
