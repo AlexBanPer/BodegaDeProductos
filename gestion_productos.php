@@ -10,7 +10,7 @@ $dbPDOClass = new PDOConnect();
 
 $codigo = $_POST['codigo'];
 $desc = $_POST['descripcion'];
-$stock = is_numeric($_POST['stock']);
+$stock = $_POST['stock'];
 $proveedor = $_POST['proveedor'];
 $fecha = $_POST['fecha'];
 
@@ -19,14 +19,23 @@ if (isset($_POST)) {
 	{
 		switch ($_GET['modo']) {
 			case 'agregar':
+			$verificar = $dbPDOClass->dbPDO->prepare("SELECT cod_producto FROM productos WHERE cod_producto=:cod");
+			$verificar->bindParam(':cod', $codigo, PDO::PARAM_STR);
+			$verificar->execute();
+			$count = $verificar->rowCount();
 
-
-
-
-
-
-
-
+			if ($count == 0) {
+				$stmt = $dbPDOClass->dbPDO->prepare("INSERT INTO `productos`(`cod_producto`, `descripcion`, `stock`, `proveedor`, `fecha_ingreso`) VALUES (:cod,:descripcion,:stock,:prov,:fecha)");
+				$stmt->bindParam(':cod', $codigo, PDO::PARAM_STR);
+				$stmt->bindParam(':descripcion', $desc, PDO::PARAM_STR);
+				$stmt->bindParam(':stock', $stock, PDO::PARAM_STR);
+				$stmt->bindParam(':prov', $proveedor, PDO::PARAM_STR);
+				$stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
+				$stmt->execute();
+				header("Location: agregar_producto.php?status=200&new=".$codigo);
+			} else {
+				header("Location: agregar_producto.php?status=11");
+			}
 			break;
 			case 'modificar':
 
@@ -53,6 +62,8 @@ if (isset($_POST)) {
 			default:
 			break;
 		}
+	}else{
+		header("Location: agregar_producto.php?status=10");
 	}
 
 } else {
