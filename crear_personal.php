@@ -60,6 +60,7 @@ if ($data->isOnline == false) {
                 $msg = "El usuario ".$extra." fue creado!";
                 break;
                 default:
+                $msg = "Error desconocido, contacta con un administrador.";
                 break;
             }
 
