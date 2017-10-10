@@ -9,16 +9,21 @@ $data = Sessions::getInstance();
 $dbPDOClass = new PDOConnect();
 
 $codigo = $_POST['codigo'];
-$desc = $_POST['descripcion'];
+$desc = "";
 $stock = $_POST['stock'];
-$proveedor = $_POST['proveedor'];
-$fecha = $_POST['fecha'];
+$proveedor = "";
+$fecha = "";
 
 if (isset($_POST)) {
 	if($_GET)
 	{
+
 		switch ($_GET['modo']) {
 			case 'agregar':
+			$desc = $_POST['descripcion'];
+			$proveedor = $_POST['proveedor'];
+			$fecha = $_POST['fecha'];
+
 			$verificar = $dbPDOClass->dbPDO->prepare("SELECT cod_producto FROM productos WHERE cod_producto=:cod");
 			$verificar->bindParam(':cod', $codigo, PDO::PARAM_STR);
 			$verificar->execute();
@@ -32,21 +37,56 @@ if (isset($_POST)) {
 				$stmt->bindParam(':prov', $proveedor, PDO::PARAM_STR);
 				$stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
 				$stmt->execute();
-				header("Location: agregar_producto.php?status=200&new=".$codigo);
+				
+				header("Location: mod_producto.php?status=200&new=".$codigo);
 			} else {
-				header("Location: agregar_producto.php?status=11");
+				header("Location: mod_producto.php?status=11");
 			}
 			break;
 			case 'modificar':
+			if ($_GET['mod'] == "stock") {
+				if (isset($_POST['actualiza'])) {
+					$verificar = $dbPDOClass->dbPDO->prepare("SELECT stock FROM productos WHERE cod_producto=:cod");
+					$verificar->bindParam(':cod', $codigo, PDO::PARAM_STR);
+					$verificar->execute();
+					$verificacion = $verificar->fetchAll();
 
+					foreach ($verificacion as $key) {
+						$dbstock = $key['stock'] + $stock;
+					}
+					$stmt = $dbPDOClass->dbPDO->prepare("UPDATE productos SET stock = :total WHERE cod_producto = :cod");
+					$stmt->bindParam(':cod', $codigo, PDO::PARAM_STR);
+					$stmt->bindParam(':total', $dbstock, PDO::PARAM_STR);
+					$stmt->execute();
+					header("Location: mod_producto.php?status=200&new=".$codigo);
+				} else {
+					header("Location: mod_producto.php?status=10");
+				}
+			} elseif($_GET['mod'] == "producto") {
+				if ($_POST['modificar']) {
+					$desc = $_POST['descripcion'];
+					$proveedor = $_POST['proveedor'];
+					$fecha = $_POST['fecha'];
 
-
-
-
-
-
-
-
+					$verificar = $dbPDOClass->dbPDO->prepare("SELECT cod_producto FROM productos WHERE cod_producto=:cod");
+					$verificar->bindParam(':cod', $codigo, PDO::PARAM_STR);
+					$verificar->execute();
+					$count = $verificar->rowCount();
+					if($count != 0){
+						$stmt = $dbPDOClass->dbPDO->prepare("UPDATE productos SET descripcion=:descripcion, proveedor=:prov, fecha_ingreso=:fecha WHERE cod_producto=:cod");
+						$stmt->bindParam(':cod', $codigo, PDO::PARAM_STR);
+						$stmt->bindParam(':descripcion', $desc, PDO::PARAM_STR);
+						$stmt->bindParam(':prov', $proveedor, PDO::PARAM_STR);
+						$stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
+						$stmt->execute();
+						header("Location: mod_producto.php?status=200&new=".$codigo);
+					}else{
+						header("Location: mod_producto.php?status=11");
+					}
+				}else{
+					header("Location: mod_producto.php?status=10");
+				}
+			}
 			break;
 			case 'eliminar':
 
@@ -60,10 +100,12 @@ if (isset($_POST)) {
 
 			break;
 			default:
+			# error 404
 			break;
 		}
+
 	}else{
-		header("Location: agregar_producto.php?status=10");
+		header("Location: mod_producto.php?status=10");
 	}
 
 } else {
@@ -78,8 +120,6 @@ if (isset($_POST)) {
 function redireccionar($destino){
 	header("Location: $destino");
 }
-
-
 ?>
 
 
