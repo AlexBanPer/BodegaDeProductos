@@ -1,6 +1,12 @@
+<?php 
+//Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
+include('sesion.php');
+$data = Sessions::getInstance();
 
-<!-- Inclución de archivos requeridos -->
-
+if ($data->isOnline == false) {
+    header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,12 +20,11 @@
             <div class= "encabezado">
             <div class="izq">
         
-            <p>Bienvenido/a:<br> <!-- Agregar variable de sesión con nombre y apellido del usuario --></p>
+            <p>Bienvenido/a:<br> <?php echo $_SESSION['fullname']; ?></p>
 
             </div>
             <div class="centro">
                 <?php
-                    // La siguiente validación verifica el cargo del usuario que esta viendo esta pagina para asignarle el flujo que tendra el links con imagen "Home".
                     if ($_SESSION['cargo']=='Admin') {
                             echo "<a href=principalAdmin.php><center><img src='imagenes/home.png'><br>Home<center></a>";
                     }else {
@@ -31,15 +36,13 @@
             </div>
             
             <div class="derecha">
-                <!-- La siguiente línea corresponde al links con imagen para finalizar sesión, que redirige a la página salir.php con la varible "sal=si" que destruye la sesión y nos 
-                    muestra la pagina del login. -->
                 <a href="salir.php?sal=si"><img src="imagenes/cerrar.png"><br>Salir</a>
             </div>
         </div>
         <br><h1 align="center">GESTIÓN DE PRODUCTOS</h1>     
 
             <div class="formulario">
-                <form name="registro" method="post" action="" enctype="application/x-www-form-urlencoded">
+                <form name="registro" method="post" action="gestion_productos.php?modo=agregar" enctype="application/x-www-form-urlencoded">
                     <div class="campo">
                         <label for="codigo">Código del producto:</label>
                         <input type="text" name="codigo" required/>
