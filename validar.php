@@ -94,18 +94,6 @@ function redireccionar($destino){
 
 ?>
 
-<!-- 
-	
-	Verificar que exista el registro en la base de datos.
-		Si el registro existe entonces:
-			Iniciar sesión.
-			Crear variables de sesión a ocupar.
-			Asignar los permisos según el cargo. 
-
-		Si no existe el registro enviar una variable para mostra mensaje en pagina de login. 
-
-
-
 
 
    
