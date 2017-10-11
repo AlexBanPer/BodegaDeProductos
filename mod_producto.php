@@ -87,7 +87,7 @@ error_reporting(E_ALL  ^  E_NOTICE  ^  E_WARNING);
 					case '200':
 					$color = "#41E122B3";
 					$extra = $_GET['new'];
-					$msg = "El producto #".$extra." fue eliminado!";
+					$msg = "El producto #".$extra." tiene un nuevo stock!";
 					break;
 					default:
 					$msg = "Error desconocido, contacta con un administrador.";

@@ -21,7 +21,7 @@ error_reporting(E_ALL  ^  E_NOTICE  ^  E_WARNING);
 		<div class="contenedor">
 			<div class= "encabezado">
 				<div class="izq">
-					<p>Bienvenido/a:<br><!-- Agregar variable de sesión con nombre y apellido del usuario --></p>
+					<p>Bienvenido/a:<br><?php echo $_SESSION['fullname']; ?></p>
 				</div>
 
 				<div class="centro">

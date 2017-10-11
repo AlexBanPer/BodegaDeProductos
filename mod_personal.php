@@ -131,9 +131,9 @@ if ($data->isOnline == false) {
 
 					$update = $dbPDOClass->dbPDO->prepare("UPDATE personal SET nombre=:nombre, apellido=:apellido, cargo=:cargo WHERE rut=:rut");
 					$update->bindParam(':nombre', $updatename, PDO::PARAM_STR);
-					$update->bindParam('apellido', $updateapellido, PDO::PARAM_STR);
-					$update->bindParam('cargo', $updatecargo, PDO::PARAM_STR);
-					$update->bindParam('rut', $seleccionar, PDO::PARAM_STR);
+					$update->bindParam(':apellido', $updateapellido, PDO::PARAM_STR);
+					$update->bindParam(':cargo', $updatecargo, PDO::PARAM_STR);
+					$update->bindParam(':rut', $seleccionar, PDO::PARAM_STR);
 					$update->execute();
 					echo "<script lenguaje='javascript'>alert('Usuario actualizado!');</script>";
 
