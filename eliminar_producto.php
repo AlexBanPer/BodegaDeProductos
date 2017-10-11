@@ -1,6 +1,13 @@
+<?php 
+//Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
+include('sesion.php');
+$data = Sessions::getInstance();
 
-<!-- Inclución de archivos requeridos -->
-
+if ($data->isOnline == false) {
+	header("Location: login.php");
+}
+error_reporting(E_ALL  ^  E_NOTICE  ^  E_WARNING);
+?>
 <!DOCTYPE html> 
 <html>
 	<head>
@@ -19,7 +26,6 @@
 
 				<div class="centro">
 					<?php
-						// La siguiente validación verifica el cargo del usuario que esta viendo esta pagina para asignarle el flujo que tendra el links con imagen "Home".
 						if ($_SESSION['cargo']=='Admin') {
 								echo "<a href=principalAdmin.php><center><img src='imagenes/home.png'><br>Home<center></a>";
 						}else {
@@ -37,11 +43,41 @@
 				
 			
 			<br><h1 align='center'>REGISTROS EXISTENTES</h1><br>
-			<?php
-				include('conexion.php');
+			<?php 
+			if ($_GET['status']) {
+				$color = "#E12222B3";
+				switch ($_GET['status']) {
+					case '10':
+					$msg = "No hay datos ingresados!";
+					break;
+					case '11':
+					$msg = "El CODIGO de producto no existe!";
+					break;
+					case '200':
+					$color = "#41E122B3";
+					$extra = $_GET['new'];
+					$msg = "El producto #".$extra." fue actualizado!";
+					break;
+					default:
+					$msg = "Error desconocido, contacta con un administrador.";
+					break;
+				}
 
-				$consulta="SELECT * FROM productos";
-				$ejecutar=mysql_query($consulta,$conexion);
+				echo '<div style="margin-top: 2px;margin-bottom: 2px;">';
+				echo '<div class="formulario" style="background-color: '.$color.';">';
+				echo '<p style="text-align: center;text-align-last: ;font-weight: bolder;font-size-adjust: inherit;margin-bottom: 1em;">'.$msg.'</p>';
+				echo '</div>';
+				echo '</div>';
+
+			}
+
+			?>
+			<br>
+			<?php
+				$dbPDOClass = new PDOConnect();
+				$stmt = $dbPDOClass->dbPDO->prepare("SELECT * FROM productos");
+				$stmt->execute();
+				$dbresult = $stmt->fetchAll();
 			
 				echo "<table  width='80%' align='center'><tr>";	         	  
 				echo "<th width='10%'>CODIGO PRODUCTO</th>";
@@ -51,7 +87,7 @@
 				echo "<th width='20%'>FECHA DE INGRESO</th>";
 				echo  "</tr>"; 
 			
-				while($result=mysql_fetch_array($ejecutar)){	
+				foreach($dbresult as $result){	
 		          	
 		          echo "<tr>";	         	  
 				  echo '<td width=10%>'.$result['cod_producto'].'</td>';
@@ -64,18 +100,11 @@
 				echo "</table></br>";
 			?>
 
-			<form action="" method="post" align='center'>
+			<form action="gestion_productos.php?modo=eliminar" method="post" align='center'>
 			 	<label name="elimina">Ingresa el código del producto a eliminar:</label>
-			 	<input name='eliminar-producto' type="text">
-			 	<input name='eliminar' type="submit" value="ELIMINAR">
-			</form>
-
-			<!-- Verificación de boton submit 
-				Recuperar variable con código ingresado.
-				Eliminar registro de la base de datos asociado al código ingresado.
-				Redirigir el flujo a esta misma página para visualizar los cambios -->
-			
-		    	
+			 	<input name='codigo' type="text">
+			 	<input name='eliminar' type="submit" value="ELIMINAR" onclick="return confirm('Seguro que deseas eliminarlo?')">
+			</form>   	
 		</div>
 	</body>
 </html>		 
