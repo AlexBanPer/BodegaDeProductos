@@ -64,21 +64,18 @@ if($_POST)
 			}
 			else
 			{
-				//redireccionar("login.php?error=si");
-				echo "Datos no validos.";
+				redireccionar("login.php?error=si");
 			}
 		}
 	}
 	else
 	{
-		//redireccionar("login.php?error=si");
-		echo "Datos no validos.";
+		redireccionar("login.php?error=si");
 	}
 }
 else
 {
-	//redireccionar("login.php?error=si");
-	echo "NO HAY DATOS! -> Vuelve a login";
+	redireccionar("login.php?error=si&msg=1");
 }
 
 

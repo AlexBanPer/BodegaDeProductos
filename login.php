@@ -1,4 +1,6 @@
 <?php 
+// 204837104 - 123
+// 147258366 - 123
 //Recuperamos, para incluir el archivo sesion.php & iniciamos la variable.
 include('sesion.php');
 $data = Sessions::getInstance();
@@ -31,7 +33,12 @@ if ($data->isOnline() == true) {
 
              // Las siguientes 2 líneas corresponden a la verificación de la variable error según sea el resultado de la validación de los datos ingresados en el archivo validar.php. 
 			if ($_GET["error"]=="si") { 
-				echo "<span style='color:#F00; font-size:2em;'>VERIFICA TUS DATOS</span>";
+				if ($_GET['msg'] == 1) {
+					$msg = "Debes rellenar todos los campos!";
+				}else{
+					$msg = "VERIFICA TUS DATOS";
+				}
+				echo "<center><span style='color:#F00; font-size:2em;'>".$msg."</span></center>";
 			}
 			?>
 			<h2 align="center">BIENVENIDOS AL GESTOR DE BODEGA</br></h2>

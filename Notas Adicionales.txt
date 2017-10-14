@@ -1,0 +1,7 @@
+Usuario Admin (General): 20483710 - 123
+Usuario Bodega: 147258366 - 123
+
+* Debe reimportar la base de datos por el SQL que esta en el ZIP.
+  - Se trabajo con PDO por lo cual las Ñ no son caracteres validos. (Contraseña)
+* Se trabajo con sistema de clases (para sesiones).
+* Se puede validar el trabajo https://github.com/AlexBanPer/BodegaDeProductos
