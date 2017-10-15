@@ -28,8 +28,8 @@ if($_POST)
 
 		if($count == 0)
 		{
-			//redireccionar("login.php?error=si");
-			echo "No existe el usuario!";
+			redireccionar("login.php?error=si");
+			//echo "No existe el usuario!";
 		}
 		else
 		{
